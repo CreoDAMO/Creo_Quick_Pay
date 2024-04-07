@@ -76,6 +76,136 @@ Now you should have the Creo Quick Pay backend and frontend running using Xcode.
 
 Remember to refer to the project's documentation or README files within the `backend` and `frontend` directories for any additional setup steps or specific instructions.
 
+## Let's start by creating the connection between the backend and frontend APIs. We'll assume that you already have a backend API set up and running, and we'll use URLSession to make HTTP requests to that API from our SwiftUI app.
+
+1. Backend API Setup:
+   - Make sure your backend API is running and accessible.
+   - Define the API endpoints and their corresponding HTTP methods for the functionality you want to interact with from the frontend.
+
+2. Frontend API Connection:
+   - Create a new Swift file called `APIManager.swift` in your Xcode project.
+   - Inside the `APIManager` file, define a struct called `APIManager`.
+
+   ```swift
+   import Foundation
+
+   struct APIManager {
+       static let shared = APIManager()
+       private let baseURL = "https://your-backend-api.com" // Replace with your actual backend API URL
+
+       private init() {}
+
+       func fetchFundingNotifications(completion: @escaping ([FundingNotification]?) -> Void) {
+           guard let url = URL(string: "\(baseURL)/funding-notifications") else {
+               completion(nil)
+               return
+           }
+
+           URLSession.shared.dataTask(with: url) { (data, response, error) in
+               if let error = error {
+                   print("Error fetching funding notifications: \(error.localizedDescription)")
+                   completion(nil)
+                   return
+               }
+
+               guard let data = data else {
+                   completion(nil)
+                   return
+               }
+
+               do {
+                   let notifications = try JSONDecoder().decode([FundingNotification].self, from: data)
+                   completion(notifications)
+               } catch {
+                   print("Error decoding funding notifications: \(error.localizedDescription)")
+                   completion(nil)
+               }
+           }.resume()
+       }
+
+       func submitFundingPreferences(preferences: FundingPreferences, completion: @escaping (Bool) -> Void) {
+           guard let url = URL(string: "\(baseURL)/funding-preferences") else {
+               completion(false)
+               return
+           }
+
+           var request = URLRequest(url: url)
+           request.httpMethod = "POST"
+           request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+
+           do {
+               let jsonData = try JSONEncoder().encode(preferences)
+               request.httpBody = jsonData
+           } catch {
+               print("Error encoding funding preferences: \(error.localizedDescription)")
+               completion(false)
+               return
+           }
+
+           URLSession.shared.dataTask(with: request) { (data, response, error) in
+               if let error = error {
+                   print("Error submitting funding preferences: \(error.localizedDescription)")
+                   completion(false)
+                   return
+               }
+
+               guard let response = response as? HTTPURLResponse else {
+                   completion(false)
+                   return
+               }
+
+               completion(response.statusCode == 200)
+           }.resume()
+       }
+   }
+   ```
+
+   In the above code, we've created a singleton `APIManager` struct with two methods: `fetchFundingNotifications` and `submitFundingPreferences`. These methods use URLSession to make the corresponding GET and POST requests to the backend API.
+
+   - In the `fetchFundingNotifications` method, we construct the URL based on the base URL and endpoint, then use URLSession's dataTask to make the GET request. We handle any errors, decode the response data into an array of `FundingNotification` objects, and pass the result to the completion closure.
+   - In the `submitFundingPreferences` method, we construct the URL and request, encode the `FundingPreferences` object as JSON data, and use URLSession's dataTask to make the POST request. We handle any errors, check the response status code to determine the success of the request, and pass the result to the completion closure.
+
+3. Frontend Integration:
+   - In your `CreoQuickPayView`, replace the `fetchFundingNotifications` function with the following code:
+
+   ```swift
+   func fetchFundingNotifications() {
+       isLoading = true
+       APIManager.shared.fetchFundingNotifications { [weak self] notifications in
+           DispatchQueue.main.async {
+               self?.isLoading = false
+               if let notifications = notifications {
+                   self?.fundingNotifications = notifications
+               } else {
+                   self?.error = "Failed to fetch funding notifications"
+               }
+           }
+       }
+   }
+   ```
+
+   - Replace the `submitFundingPreferences` function with the following code:
+
+   ```swift
+   func submitFundingPreferences() {
+       isLoading = true
+       APIManager.shared.submitFundingPreferences(preferences: fundingPreferences) { [weak self] success in
+           DispatchQueue.main.async {
+               self?.isLoading = false
+               if success {
+                   // Handle successful submission, e.g., show a success message or perform any necessary updates
+               } else {
+                   self?.error = "Failed to submit funding preferences"
+               }
+           }
+       }
+   }
+   ```
+
+   Here, we're using the `APIManager` to fetch funding notifications and submit funding preferences. We update the `isLoading` state to show the progress view while the request ismade, and handle the success or failure of the requests by updating the `fundingNotifications` state or showing an error message.
+
+With these changes, your frontend API connection should be set up, and you can now interact with your backend API from your SwiftUI app. Remember to replace the placeholder URLs in the `APIManager` with your actual backend API URLs.
+
 ## Contributing
 
 We welcome contributions to Creo Quick Pay! If you have any ideas, bug fixes, or enhancements, feel free to open an issue or submit a pull request. Please ensure that your contributions adhere to our code of conduct.
