@@ -2,13 +2,13 @@
 import PackageDescription
 
 let package = Package(
-    name: "YourPackageName",
+    name: "CreoQuickPay",
     dependencies: [
         .package(url: "https://github.com/vapor/vapor.git", from: "4.0.0")
     ],
     targets: [
         .target(
-            name: "YourTargetName",
+            name: "CreoQuickPay",
             dependencies: [
                 .product(name: "Vapor", package: "vapor")
             ]
