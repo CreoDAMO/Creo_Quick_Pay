@@ -7,7 +7,7 @@ let package = Package(
        .macOS(.v12)
     ],
     products: [
-        // Define products for each target if needed
+        // Products define the executables and libraries produced by a package, and make them visible to other packages.
         .library(
             name: "CreoQuickPayBackend",
             targets: ["CreoQuickPayBackend"]),
@@ -19,52 +19,32 @@ let package = Package(
             targets: ["CreoQuickPayServices"]),
     ],
     dependencies: [
-        // List of package dependencies
+        // Define any external dependencies required by your package here.
         .package(url: "https://github.com/vapor/vapor.git", from: "4.0.0"),
         // Add other dependencies here...
-        .package(url: "https://github.com/vapor/fluent.git", from: "4.0.0"),
-        .package(url: "https://github.com/vapor/fluent-postgres-driver.git", from: "2.0.0"),
-        .package(url: "https://github.com/vapor/leaf.git", from: "4.0.0"),
-        .package(url: "https://github.com/brokenhandsio/VaporSecurityHeaders.git", from: "3.0.0"),
-        .package(url: "https://github.com/vapor/jwt.git", from: "4.0.0"),
-        .package(url: "https://github.com/vapor/redis.git", from: "4.0.0"),
-        .package(url: "https://github.com/vapor/queues.git", from: "1.5.0"),
-        .package(url: "https://github.com/vapor/apns.git", from: "1.0.0"),
-        .package(url: "https://github.com/vapor-community/mailgun.git", from: "5.0.0"),
-        .package(url: "https://github.com/vapor-community/Imperial.git", from: "1.0.0"),
     ],
     targets: [
         .target(
             name: "CreoQuickPayBackend",
             dependencies: [
                 .product(name: "Vapor", package: "vapor"),
-                .product(name: "Fluent", package: "fluent"),
-                .product(name: "FluentPostgresDriver", package: "fluent-postgres-driver"),
-                .product(name: "Leaf", package: "leaf"),
-                .product(name: "VaporSecurityHeaders", package: "VaporSecurityHeaders"),
-                .product(name: "JWT", package: "jwt"),
-                .product(name: "Redis", package: "redis"),
-                .product(name: "Queues", package: "queues"),
-                .product(name: "APNS", package: "apns"),
-                .product(name: "Mailgun", package: "mailgun"),
-                .product(name: "Imperial", package: "Imperial"),
                 // Add other dependencies specific to the backend target...
             ],
-            path: "Backend" // Adjust this path if your backend source files are located elsewhere
+            path: "Backend/Models" // Adjust this path to the location of your backend model source files
         ),
         .target(
             name: "CreoQuickPayFrontend",
             dependencies: [
                 // Add dependencies specific to the frontend target...
             ],
-            path: "Frontend" // Adjust this path if your frontend source files are located elsewhere
+            path: "Frontend" // Adjust this path to the location of your frontend source files
         ),
         .target(
             name: "CreoQuickPayServices",
             dependencies: [
                 // Add dependencies specific to the services target...
             ],
-            path: "Services" // Adjust this path if your services source files are located elsewhere
+            path: "Services" // Adjust this path to the location of your services source files
         ),
         .testTarget(
             name: "CreoQuickPayTests",
