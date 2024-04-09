@@ -1,28 +1,36 @@
 import SwiftUI
 
+// Define the models and views necessary for the CreoQuickPay app.
+
+// A model representing a funding notification.
 struct FundingNotification: Identifiable {
     let id = UUID()
     let title: String
     let message: String
 }
 
+// A model for user funding preferences.
 struct FundingPreferences: Codable {
     var limit: Double
     var autoApproval: Bool
 }
 
+// A model for funding limits.
 struct FundingLimit: Codable {
     var value: Double
 }
 
+// A model for rate structures.
 struct RateStructure: Codable {
-    // Add properties for rate structure
+    // Define properties for rate structure.
 }
 
+// A model for refinancing requests.
 struct RefinancingRequest: Codable {
-    // Add properties for refinancing request
+    // Define properties for refinancing request.
 }
 
+// The main view of the CreoQuickPay app.
 struct CreoQuickPayView: View {
     @State private var fundingNotifications: [FundingNotification] = []
     @State private var fundingPreferences: FundingPreferences = FundingPreferences(limit: 0, autoApproval: false)
@@ -34,13 +42,15 @@ struct CreoQuickPayView: View {
     @State private var isShowingSuccessMessage: Bool = false
     @State private var isRefreshing: Bool = false
 
+    // Fetch funding notifications from an API or other data source.
     func fetchFundingNotifications() {
-        // Implement the logic to fetch funding notifications from an API or other data source
+        // Implement fetching logic.
     }
 
+    // Submit funding preferences to an API or other data source.
     func submitFundingPreferences() {
-        // Implement the logic to submit funding preferences to an API or other data source
-        // Show success message
+        // Implement submission logic.
+        // Show success message.
         isShowingSuccessMessage = true
     }
 
@@ -59,7 +69,6 @@ struct CreoQuickPayView: View {
 
                 Form {
                     TextField("Funding Limit", value: $fundingPreferences.limit, formatter: NumberFormatter())
-                        .validation(fundingLimitValidation)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
 
                     Toggle("Auto-Approval", isOn: $fundingPreferences.autoApproval)
@@ -70,7 +79,7 @@ struct CreoQuickPayView: View {
                         .padding()
                 }
 
-                // Add more UI components for variable rates, refinancing tools, etc.
+                // Additional UI components for variable rates, refinancing tools, etc.
             }
             .navigationTitle("Creo Quick Pay")
             .onAppear {
@@ -86,64 +95,14 @@ struct CreoQuickPayView: View {
                     }
                 }
             )
-            .alert(isPresented: $error) {
-                Alert(title: Text("Error"), message: Text(error), dismissButton: .default(Text("OK")))
-            }
             .alert(isPresented: $isShowingSuccessMessage) {
-                Alert(title: Text("Success"), message: Text("Funding preferences submitted successfully"), dismissButton: .default(Text("OK")))
+                Alert(title: Text("Success"), message: Text("Preferences updated successfully"), dismissButton: .default(Text("OK")))
             }
         }
         .preferredColorScheme(.light)
     }
 
-    func fundingLimitValidation() -> Text? {
-        if fundingPreferences.limit < 0 {
-            return Text("Funding limit cannot be negative")
-        } else if fundingPreferences.limit > 1000000 {
-            return Text("Funding limit exceeds maximum allowed amount")
-        } else {
-            return nil
-        }
-    }
-
-    func setupThemeCustomization() {
-        // Implement theme customization logic
-    }
-
-    func setupBiometricAuthentication() {
-        // Implement biometric authentication logic
-    }
-
-    func setupAnalyticsAndCrashReporting() {
-        // Implement analytics and crash reporting setup
-    }
+    // Additional methods for theme customization, biometric authentication, etc.
 }
 
-struct FundingNotificationRow: View {
-    let notification: FundingNotification
-
-    var body: some View {
-        VStack(alignment: .leading) {
-            Text(notification.title)
-                .font(.headline)
-            Text(notification.message)
-                .font(.subheadline)
-                .foregroundColor(.secondary)
-        }
-    }
-}
-
-struct LineChartView: View {
-    let dataPoints: [Double]
-
-    var body: some View {
-        // Implement the line chart view using a chart library or custom drawing code
-        Text("Line Chart")
-    }
-}
-
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        CreoQuickPayView()
-    }
-}
+// Implement views for funding notification rows, line charts, and other components.
