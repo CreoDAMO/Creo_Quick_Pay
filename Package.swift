@@ -20,7 +20,20 @@ let package = Package(
         .package(url: "https://github.com/vapor/fluent-postgres-driver.git", from: "2.0.0"),
         // 🍃 An expressive, performant, and extensible templating language for building dynamic web pages.
         .package(url: "https://github.com/vapor/leaf.git", from: "4.0.0"),
-        // Add other dependencies here...
+        // 🛡️ Adds security headers to Vapor's responses.
+        .package(url: "https://github.com/brokenhandsio/VaporSecurityHeaders.git", from: "3.0.0"),
+        // 🔑 JSON Web Tokens in Swift.
+        .package(url: "https://github.com/vapor/jwt.git", from: "4.0.0"),
+        // 🗄️ Redis client for Swift.
+        .package(url: "https://github.com/vapor/redis.git", from: "4.0.0"),
+        // 🚀 Queues for Vapor.
+        .package(url: "https://github.com/vapor/queues.git", from: "1.5.0"),
+        // 📦 Apple Push Notification Service (APNS) for Vapor.
+        .package(url: "https://github.com/vapor/apns.git", from: "1.0.0"),
+        // 📧 Mailgun provider for Vapor.
+        .package(url: "https://github.com/vapor-community/mailgun.git", from: "5.0.0"),
+        // 👤 Imperial - Federated Authentication with OAuth providers.
+        .package(url: "https://github.com/vapor-community/Imperial.git", from: "1.0.0"),
     ],
     targets: [
         .target(
@@ -30,6 +43,13 @@ let package = Package(
                 .product(name: "Fluent", package: "fluent"),
                 .product(name: "FluentPostgresDriver", package: "fluent-postgres-driver"),
                 .product(name: "Leaf", package: "leaf"),
+                .product(name: "VaporSecurityHeaders", package: "VaporSecurityHeaders"),
+                .product(name: "JWT", package: "jwt"),
+                .product(name: "Redis", package: "redis"),
+                .product(name: "Queues", package: "queues"),
+                .product(name: "APNS", package: "apns"),
+                .product(name: "Mailgun", package: "mailgun"),
+                .product(name: "Imperial", package: "Imperial"),
                 // Add other product dependencies here...
             ],
             resources: [
