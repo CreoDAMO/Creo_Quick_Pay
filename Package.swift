@@ -37,7 +37,7 @@ let package = Package(
             dependencies: [
                 // Add dependencies specific to the frontend target...
             ],
-            path: "Frontend" // Adjust this path to the location of your frontend source files
+            path: "Frontend" // Make sure this directory exists and contains your SwiftUI files
         ),
         .target(
             name: "CreoQuickPayServices",
