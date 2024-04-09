@@ -30,21 +30,21 @@ let package = Package(
                 .product(name: "Vapor", package: "vapor"),
                 // Add other dependencies specific to the backend target...
             ],
-            path: "Backend/Models" // Adjust this path to the location of your backend model source files
+            path: "Backend"
         ),
         .target(
             name: "CreoQuickPayFrontend",
             dependencies: [
                 // Add dependencies specific to the frontend target...
             ],
-            path: "Frontend" // Adjust this path to the location of your frontend source files
+            path: "SwiftUI"
         ),
         .target(
             name: "CreoQuickPayServices",
             dependencies: [
                 // Add dependencies specific to the services target...
             ],
-            path: "Services" // Adjust this path to the location of your services source files
+            path: "Services"
         ),
         .testTarget(
             name: "CreoQuickPayTests",
@@ -54,7 +54,7 @@ let package = Package(
                 "CreoQuickPayServices",
                 // Add other dependencies for testing if needed...
             ],
-            path: "Tests" // Adjust this path to the location of your test files
+            path: "Tests"
         ),
     ]
 )
