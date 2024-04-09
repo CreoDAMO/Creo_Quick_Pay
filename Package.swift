@@ -7,7 +7,7 @@ let package = Package(
        .macOS(.v12)
     ],
     products: [
-        // Products define the executables and libraries produced by a package, and make them visible to other packages.
+        // Define products for each target if needed
         .library(
             name: "CreoQuickPayBackend",
             targets: ["CreoQuickPayBackend"]),
@@ -19,7 +19,7 @@ let package = Package(
             targets: ["CreoQuickPayServices"]),
     ],
     dependencies: [
-        // Define any external dependencies required by your package here.
+        // List of package dependencies
         .package(url: "https://github.com/vapor/vapor.git", from: "4.0.0"),
         // Add other dependencies here...
     ],
@@ -37,7 +37,7 @@ let package = Package(
             dependencies: [
                 // Add dependencies specific to the frontend target...
             ],
-            path: "Frontend" // Make sure this directory exists and contains your SwiftUI files
+            path: "Frontend" // Adjust this path to the location of your frontend source files
         ),
         .target(
             name: "CreoQuickPayServices",
