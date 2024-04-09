@@ -88,3 +88,20 @@ fastlane/test_output
 # https://github.com/johnno1962/injectionforxcode
 
 iOSInjectionProject/
+
+# Environment variables
+.env
+
+# Secrets
+*.secrets
+
+# Xcode Schemes
+xcuserdata/**/*.xcscheme
+
+# SwiftLint
+.swiftlint.yml
+swiftlint_report.json
+
+# Miscellaneous
+*.tmp
+*~
