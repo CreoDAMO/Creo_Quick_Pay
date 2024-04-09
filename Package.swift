@@ -7,37 +7,64 @@ let package = Package(
        .macOS(.v12)
     ],
     products: [
+        // Define products for each target if needed
         .library(
-            name: "CreoQuickPay",
-            targets: ["CreoQuickPayBackend", "CreoQuickPayFrontend", "CreoQuickPayServices"]),
+            name: "CreoQuickPayBackend",
+            targets: ["CreoQuickPayBackend"]),
+        .library(
+            name: "CreoQuickPayFrontend",
+            targets: ["CreoQuickPayFrontend"]),
+        .library(
+            name: "CreoQuickPayServices",
+            targets: ["CreoQuickPayServices"]),
     ],
     dependencies: [
-        // Your package dependencies
+        // List of package dependencies
         .package(url: "https://github.com/vapor/vapor.git", from: "4.0.0"),
         // Add other dependencies here...
+        .package(url: "https://github.com/vapor/fluent.git", from: "4.0.0"),
+        .package(url: "https://github.com/vapor/fluent-postgres-driver.git", from: "2.0.0"),
+        .package(url: "https://github.com/vapor/leaf.git", from: "4.0.0"),
+        .package(url: "https://github.com/brokenhandsio/VaporSecurityHeaders.git", from: "3.0.0"),
+        .package(url: "https://github.com/vapor/jwt.git", from: "4.0.0"),
+        .package(url: "https://github.com/vapor/redis.git", from: "4.0.0"),
+        .package(url: "https://github.com/vapor/queues.git", from: "1.5.0"),
+        .package(url: "https://github.com/vapor/apns.git", from: "1.0.0"),
+        .package(url: "https://github.com/vapor-community/mailgun.git", from: "5.0.0"),
+        .package(url: "https://github.com/vapor-community/Imperial.git", from: "1.0.0"),
     ],
     targets: [
         .target(
             name: "CreoQuickPayBackend",
             dependencies: [
                 .product(name: "Vapor", package: "vapor"),
-                // Add other target dependencies specific to the backend here...
+                .product(name: "Fluent", package: "fluent"),
+                .product(name: "FluentPostgresDriver", package: "fluent-postgres-driver"),
+                .product(name: "Leaf", package: "leaf"),
+                .product(name: "VaporSecurityHeaders", package: "VaporSecurityHeaders"),
+                .product(name: "JWT", package: "jwt"),
+                .product(name: "Redis", package: "redis"),
+                .product(name: "Queues", package: "queues"),
+                .product(name: "APNS", package: "apns"),
+                .product(name: "Mailgun", package: "mailgun"),
+                .product(name: "Imperial", package: "Imperial"),
+                // Add other dependencies specific to the backend target...
             ],
-            path: "Backend/Models" // Path to your backend models
+            path: "Backend" // Adjust this path if your backend source files are located elsewhere
         ),
         .target(
             name: "CreoQuickPayFrontend",
             dependencies: [
-                // Add target dependencies specific to the frontend here...
+                // Add dependencies specific to the frontend target...
             ],
-            path: "Frontend" // Path to your frontend views
+            path: "Frontend" // Adjust this path if your frontend source files are located elsewhere
         ),
         .target(
             name: "CreoQuickPayServices",
             dependencies: [
-                // Add target dependencies specific to the services here...
+                // Add dependencies specific to the services target...
             ],
-            path: "Services" // Path to your services
+            path: "Services" // Adjust this path if your services source files are located elsewhere
         ),
         .testTarget(
             name: "CreoQuickPayTests",
@@ -45,9 +72,9 @@ let package = Package(
                 "CreoQuickPayBackend",
                 "CreoQuickPayFrontend",
                 "CreoQuickPayServices",
-                // Include testing dependencies if needed.
+                // Add other dependencies for testing if needed...
             ],
-            path: "Tests" // Update this path to the location of your test files
+            path: "Tests" // Adjust this path to the location of your test files
         ),
     ]
 )
